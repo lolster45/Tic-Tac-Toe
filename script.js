@@ -1,10 +1,32 @@
+
+
+setTimeout(() => {
+  console.log("time out activated...")
+  document.getElementById('loading-page').style.visibility = 'hidden';
+  document.getElementById('loading-page').style.height = '0vh';
+  document.getElementById('loading-page').style.width = '0vw';
+  document.getElementById('loading-page').style.opacity = '0';
+
+
+  document.getElementById('main-content').style.opacity = '1';
+  document.getElementById('main-content').style.visibility = 'visible';
+  document.getElementById('main-content').style.transform = 'translateY(0px)';
+}, 3000); // 5 seconds timeout
+
+
+
 const game = (function () {
   const playerOne = 'X';
   const playerTwo = 'O';
   let playerOneWins = 0;
-  let playerOneWinsDisplay = document.getElementById("score-one");
-  let playerTwoWinsDisplay = document.getElementById("score-two");
   let playerTwoWins = 0;
+  let playerOneWinsDisplay = document.getElementById("one");
+  let playerTwoWinsDisplay = document.getElementById("two");
+
+  const playerOneScoreBg = document.getElementById('playerOneScore');
+  const playerTwoScoreBg = document.getElementById('playerTwoScore');
+
+
   let boardGame = [
     '', '', '', 
     '', '', '', 
@@ -12,21 +34,33 @@ const game = (function () {
   ];
   const tiles = document.getElementsByClassName("tile");
 
+  function IncreaseWinnerPoints(winnerDisplay, JSWins) {
+    winnerDisplay.textContent = JSWins+=1;
+  }
 
   const announceWinner = player => {
     alert(`${player} Wins!!`);
   };
-  const resetRound = () => {
+  const resetRound = (winner) => {
+    if(winner === 'player1') {
+      IncreaseWinnerPoints(playerOneWinsDisplay, playerOneWins);
+    }
+    else if (winner === 'player2') {
+      IncreaseWinnerPoints(playerTwoWinsDisplay, playerTwoWins);
+    }
+
+    //Resets the JS board for the game...
     boardGame = [
-    '', '', '', 
-    '', '', '', 
-    '', '', ''
+      '', '', '', 
+      '', '', '', 
+      '', '', ''
     ];
   
+    //Cleasrs away the old X's and O's on the HTML...
     for (let i = 0; i < tiles.length; i++) { 
       tiles[i].innerHTML = null
     }
-    //console.log(game.boardGame.length = 0)
+
     return game.boardGame.fill("", 0, 9);
   }
   const resetGame = () => {
@@ -38,6 +72,8 @@ const game = (function () {
   }
 
   return {
+    playerOneScoreBg,
+    playerTwoScoreBg,
     playerOne,
     playerTwo,
     playerOneWins,
@@ -57,7 +93,15 @@ const game = (function () {
 
 const tiles = document.getElementsByClassName('tile');
 
+
+
 function playerOne() {
+  console.log('player one turn');
+
+  game.playerTwoScoreBg.style.backgroundColor = '#00F0FF'
+  game.playerOneScoreBg.style.backgroundColor = '#ffffff'
+
+
   for (let i = 0; i < tiles.length; i++) {
     tiles[i].onclick = () => {
       const span = document.createElement('span');
@@ -93,15 +137,17 @@ function playerOne() {
           game.boardGame[6] === 'X')
           ) {
             game.announceWinner('Player 1');
-            game.playerOneWinsDisplay.textContent = game.playerOneWins+= 1;
-            setTimeout(game.resetRound, 2000)
+            // game.playerOneWinsDisplay.textContent = game.playerOneWins+= 1;
+            setTimeout(() => {
+              game.resetRound('player1')
+            }, 2000)
             setTimeout(playerOne, 3000) 
           }  
-        }
-        else {
-          //This stops it from placing X or O on existing X and O.
-          return;
-        }
+      }
+      else {
+        //This stops it from placing X or O on existing X and O.
+        return;
+      }
 
       playerTwo();
     };
@@ -109,6 +155,13 @@ function playerOne() {
 }
 
 function playerTwo() {
+  console.log('player two turn');
+
+  game.playerOneScoreBg.style.backgroundColor = '#00F0FF'
+  game.playerTwoScoreBg.style.backgroundColor = '#ffffff'
+  
+  
+
   for (let i = 0; i < tiles.length; i++) {
     tiles[i].onclick = () => {
       const span = document.createElement('span');
@@ -143,15 +196,17 @@ function playerTwo() {
           game.boardGame[6] === "O")
           ) {
             game.announceWinner('Player 2');
-            game.playerTwoWinsDisplay.textContent = game.playerTwoWins+= 1;
-            setTimeout(game.resetRound, 2000)
+            // game.playerTwoWinsDisplay.textContent = game.playerTwoWins+= 1;
+            setTimeout(() => {
+              game.resetRound('player2')
+            }, 2000);
             setTimeout(playerOne, 3000) 
           }  
-        }
-        else {
-          //This stops it from placing X or O on existing X and O.
-          return;
-        }
+      }
+      else {
+        //This stops it from placing X or O on existing X and O.
+        return;
+      }
 
       playerOne();
     };

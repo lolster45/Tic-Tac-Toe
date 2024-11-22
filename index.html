@@ -3,28 +3,44 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="src/style.css"> 
+    <link rel="stylesheet" href="style.css"> 
+    <title>TIC TAC TOE</title>
   </head>  
   <body> 
-
-    <h1 id="title">TIC TAC TOE:</h1>
-    <section id="display">
-      <span class="tile"></span>
-      <span class="tile"></span>
-      <span class="tile"></span>
-      <span class="tile"></span>
-      <span class="tile"></span>
-      <span class="tile"></span>
-      <span class="tile"></span>
-      <span class="tile"></span>
-      <span class="tile"></span>
-    </section>
-    <section id="score-table">
-      <p class="score">Player 1: <span id="score-one">0</span></p>
-      <p class="score">Player 2: <span id="score-two">0</span></p>
-    </section>
-    <button onclick="playerOne()">Start</button>
-    <button onclick="game.resetGame()">Reset</button>
-    <script src="src/script.js"></script>
+    <div id="loading-page">
+      <div class="loader"></div>
+      <h2>Loading...</h2>
+    </div>
+    <div class="board-wrap" id="main-content">
+      <div class="left-side">
+        <h1>TIC TAC TOE</h1>
+        <section id="score-table">
+          <p id="playerOneScore" class="score">
+            Player 1: 
+            <span id="one" class="score-number">0</span>
+          </p>
+          <p id="playerTwoScore" class="score">
+            Player 2: 
+            <span id="two" class="score-number">0</span>
+          </p>
+        </section>
+        <div class="button-container">
+          <button onclick="playerOne()">START_</button>
+          <button onclick="game.resetGame()">RESET_</button>
+        </div>
+      </div>
+      <section id="display">
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+      </section>
+    </div>
+    <script src="script.js"></script>
   </body>
 </html>
